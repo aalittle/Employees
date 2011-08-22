@@ -7,12 +7,63 @@
 //
 
 #import "RootViewController.h"
+#import "EmployeeTableViewCell.h"
+#import "Employee.h"
+
+@interface RootViewController (PrivateMethods) 
+
+- (void)presentDetailView:(Employee *)theEmployee;
+- (void)dismissDetailView;
+
+@end
 
 @implementation RootViewController
 
+@synthesize cellNib;
+@synthesize detailView;
+@synthesize myTableView;
+@synthesize employees;
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    
+    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
+    self.cellNib = nil;
+    self.detailView = nil;
+    self.myTableView = nil;
+    self.employees = nil;
+}
+
+- (void)dealloc
+{
+    [myTableView release], myTableView = nil;
+    [cellNib release], cellNib = nil;
+    [detailView release], detailView = nil;
+    [employees release], employees = nil;
+    
+    [super dealloc];
+}
+
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+    [super viewDidLoad];   
+    
+    //create employees array
+    employees = [[NSMutableArray alloc] init];
+    
+    //load data from the employee plist
+    NSString* employeeDataPath = [[NSBundle mainBundle] pathForResource:@"EmployeeData" ofType:@"plist"];
+    NSArray* employeesAsDictionaries = [[NSArray alloc] initWithContentsOfFile:employeeDataPath];  
+    
+    for (NSDictionary *empDict in employeesAsDictionaries) {
+        
+        Employee *newEmployee = [[Employee alloc] init];
+        [newEmployee populateEmployeeFrom:empDict];
+        [employees addObject:newEmployee];
+        
+        [newEmployee release];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -43,6 +94,11 @@
 }
  */
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return 90.0;
+}
+
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -51,20 +107,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return [employees count];
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    EmployeeTableViewCell *cell = [EmployeeTableViewCell cellForTableView:tableView 
+                                                                    fromNib:self.cellNib];    
+    //grab the appropriate employee object
+    Employee *theEmployee = [employees objectAtIndex:indexPath.row];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
-
     // Configure the cell.
+    cell.fullName.text = theEmployee.fullName;
+    cell.jobTitle.text = theEmployee.jobTitle;
+    [cell.imageView setImage:[UIImage imageNamed:theEmployee.imagePath]];
+    
     return cell;
 }
 
@@ -111,13 +169,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-    // ...
-    // Pass the selected object to the new view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
-    [detailViewController release];
-	*/
+    //grab the appropriate employee object
+    Employee *theEmployee = [employees objectAtIndex:indexPath.row];
+    
+    [self presentDetailView:theEmployee];    
 }
 
 - (void)didReceiveMemoryWarning
@@ -128,17 +183,36 @@
     // Relinquish ownership any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
+- (void)presentDetailView:(Employee *)theEmployee {
+        
+    //get the info view prepared for display
+    NSArray* nibViews = [[NSBundle mainBundle] loadNibNamed:@"EmployeeDetailView"
+                                                      owner:self
+                                                    options:nil];
+    
+    self.detailView = [nibViews objectAtIndex:0];
+    [self.detailView setEmployeeFields:theEmployee];
+    [self.detailView.closeButton addTarget:self action:@selector(dismissDetailView) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.navigationController.view addSubview:detailView];
 }
 
-- (void)dealloc
-{
-    [super dealloc];
+- (void)dismissDetailView {
+
+    [detailView removeFromSuperview];
+
+    //deselect the row
+    [self.myTableView deselectRowAtIndexPath:[self.myTableView indexPathForSelectedRow] animated:YES];
+
+}
+
+#pragma Accessor for the cell nib
+
+- (UINib *)cellNib {
+    if (cellNib == nil) {
+        self.cellNib = [EmployeeTableViewCell nib];
+    }
+    return cellNib;    
 }
 
 @end

@@ -7,10 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EmployeeDetailView.h"
 
-@interface RootViewController : UITableViewController {
+@interface RootViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
 
+    UITableView *myTableView;
+    UINib *cellNib;
+    EmployeeDetailView *detailView;
+    NSMutableArray *employees;
 }
 
+@property (nonatomic, retain) IBOutlet UITableView *myTableView;
+@property (nonatomic, retain) UINib *cellNib;
+@property (nonatomic, retain) IBOutlet EmployeeDetailView *detailView;
+@property (nonatomic, retain) NSMutableArray *employees;
 
 @end
