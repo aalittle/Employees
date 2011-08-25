@@ -10,6 +10,8 @@
 #import "EmployeeTableViewCell.h"
 #import "Employee.h"
 
+#define ROW_HEIGHT 92.0
+
 @interface RootViewController (PrivateMethods) 
 
 - (void)presentDetailView:(Employee *)theEmployee;
@@ -18,6 +20,7 @@
 @end
 
 @implementation RootViewController
+
 
 @synthesize cellNib;
 @synthesize detailView;
@@ -99,7 +102,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 92.0;
+    return ROW_HEIGHT;
 }
 
 // Customize the number of sections in the table view.
@@ -116,59 +119,30 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EmployeeTableViewCell *cell = [EmployeeTableViewCell cellForTableView:tableView 
-                                                                    fromNib:self.cellNib];    
+    static NSString *CellIdentifier = @"EmployeeCell";
+    
+	EmployeeTableViewCell *cell = (EmployeeTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	
+	if (cell == nil) {
+		cell = [[[EmployeeTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		cell.frame = CGRectMake(0.0, 0.0, 320.0, ROW_HEIGHT);
+	}
+
     //grab the appropriate employee object
     Employee *theEmployee = [employees objectAtIndex:indexPath.row];
     
     // Configure the cell.
     cell.fullName.text = theEmployee.fullName;
     cell.jobTitle.text = theEmployee.jobTitle;
-    [cell.imageView setImage:[UIImage imageNamed:theEmployee.imagePath]];
+    
+    NSString *thumbnailFullPath = [NSString stringWithFormat:@"%@_thumb", theEmployee.imagePath];
+    
+    [cell.imageView setImage:[UIImage imageNamed:thumbnailFullPath]];
+    
+    [cell redisplay];
     
     return cell;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {
-        // Delete the row from the data source.
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }
-    else if (editingStyle == UITableViewCellEditingStyleInsert)
-    {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -194,10 +168,21 @@
                                                     options:nil];
     
     self.detailView = [nibViews objectAtIndex:0];
+    self.detailView.alpha = 0.0;
     [self.detailView setEmployeeFields:theEmployee];
     [self.detailView.closeButton addTarget:self action:@selector(dismissDetailView) forControlEvents:UIControlEventTouchUpInside];
     
     [self.navigationController.view addSubview:detailView];
+    
+    [UIView animateWithDuration:0.5
+                          delay:0 
+                        options:UIViewAnimationCurveEaseIn
+                     animations:^{
+                         self.detailView.alpha = 1.0;
+                     }
+                     completion:^( BOOL finished ) {
+                     }];
+
 }
 
 - (void)dismissDetailView {
@@ -219,13 +204,5 @@
     } 
 }
 
-#pragma Accessor for the cell nib
-
-- (UINib *)cellNib {
-    if (cellNib == nil) {
-        self.cellNib = [EmployeeTableViewCell nib];
-    }
-    return cellNib;    
-}
 
 @end

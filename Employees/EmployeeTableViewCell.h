@@ -11,20 +11,17 @@
 
 @interface EmployeeTableViewCell : UITableViewCell {
 
+    UIImageView *imageFrameView;
     UIImageView *imageView;
     UILabel     *fullName;
     UILabel     *jobTitle;
 }
 
-@property (nonatomic, retain) IBOutlet UIImageView *imageView;
-@property (nonatomic, retain) IBOutlet UILabel     *fullName;
-@property (nonatomic, retain) IBOutlet UILabel     *jobTitle;
+@property (nonatomic, retain) UIImageView *imageFrameView;
+@property (nonatomic, retain) UIImageView *imageView;
+@property (nonatomic, retain) UILabel     *fullName;
+@property (nonatomic, retain) UILabel     *jobTitle;
 
-
-+ (UINib *)nib;
-+ (NSString *)nibName;
-
-+ (NSString *)cellIdentifier;
-+ (id)cellForTableView:(UITableView *)tableView fromNib:(UINib *)nib;
+-(void)redisplay;
 
 @end
