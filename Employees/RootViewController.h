@@ -15,11 +15,14 @@
     UINib *cellNib;
     EmployeeDetailView *detailView;
     NSMutableArray *employees;
+    
+    UIButton *followMe;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *myTableView;
 @property (nonatomic, retain) UINib *cellNib;
 @property (nonatomic, retain) IBOutlet EmployeeDetailView *detailView;
 @property (nonatomic, retain) NSMutableArray *employees;
+@property (nonatomic, retain) IBOutlet UIButton *followMe;
 
 @end

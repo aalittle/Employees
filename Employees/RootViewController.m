@@ -23,6 +23,7 @@
 @synthesize detailView;
 @synthesize myTableView;
 @synthesize employees;
+@synthesize followMe;
 
 - (void)viewDidUnload
 {
@@ -33,6 +34,7 @@
     self.detailView = nil;
     self.myTableView = nil;
     self.employees = nil;
+    self.followMe = nil;
 }
 
 - (void)dealloc
@@ -41,6 +43,7 @@
     [cellNib release], cellNib = nil;
     [detailView release], detailView = nil;
     [employees release], employees = nil;
+    [followMe release], followMe = nil;
     
     [super dealloc];
 }
@@ -96,7 +99,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 90.0;
+    return 92.0;
 }
 
 // Customize the number of sections in the table view.
@@ -204,6 +207,16 @@
     //deselect the row
     [self.myTableView deselectRowAtIndexPath:[self.myTableView indexPathForSelectedRow] animated:YES];
 
+}
+
+-(IBAction)onFollowMe {
+    
+    BOOL twitter = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"twitter://user?screen_name=aalittle"]];
+    if (twitter) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"twitter://user?screen_name=aalittle"]];
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.twitter.com/aalittle"]];
+    } 
 }
 
 #pragma Accessor for the cell nib

@@ -88,7 +88,7 @@
 								<nil key="IBUIHighlightedColor"/>
 								<object class="NSColor" key="IBUIShadowColor">
 									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MSAxIDEgMC4zOQA</bytes>
+									<bytes key="NSRGB">MSAxIDEgMC44NwA</bytes>
 								</object>
 								<string key="IBUIShadowOffset">{0, 1}</string>
 								<int key="IBUIBaselineAdjustment">1</int>
@@ -100,7 +100,6 @@
 								<string key="NSFrame">{{97, 42}, {196, 30}}</string>
 								<reference key="NSSuperview" ref="606066434"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -112,16 +111,16 @@
 									<double key="NSSize">14</double>
 									<int key="NSfFlags">16</int>
 								</object>
-								<object class="NSColor" key="IBUITextColor" id="421503142">
+								<object class="NSColor" key="IBUITextColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4yMzM2OTU2NTIyIDAuMjMzNjk1NjUyMiAwLjIzMzY5NTY1MjIAA</bytes>
+								</object>
+								<nil key="IBUIHighlightedColor"/>
+								<object class="NSColor" key="IBUIShadowColor" id="421503142">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MSAxIDEAA</bytes>
 								</object>
-								<nil key="IBUIHighlightedColor"/>
-								<object class="NSColor" key="IBUIShadowColor">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC4xOTc1ODA2NDUyAA</bytes>
-								</object>
-								<string key="IBUIShadowOffset">{0, 0}</string>
+								<string key="IBUIShadowOffset">{0, 1}</string>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">10</float>
 							</object>
@@ -163,7 +162,7 @@
 				<reference key="IBUIContentView" ref="606066434"/>
 				<object class="NSCustomResource" key="IBUIImage">
 					<string key="NSClassName">NSImage</string>
-					<string key="NSResourceName">cell_background@2x.png</string>
+					<string key="NSResourceName">cell_background_beige@2x.png</string>
 				</object>
 				<string key="IBUIReuseIdentifier">EmployeeTableViewCell</string>
 			</object>
@@ -351,12 +350,12 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>cell_background@2x.png</string>
+				<string>cell_background_beige@2x.png</string>
 				<string>launcher-frame@2x.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{640, 174}</string>
+				<string>{640, 180}</string>
 				<string>{320, 320}</string>
 			</object>
 		</object>
