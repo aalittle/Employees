@@ -347,6 +347,7 @@
 				7786E8CF140130D400BD2093 /* Sources */,
 				7786E8D0140130D400BD2093 /* Frameworks */,
 				7786E8D1140130D400BD2093 /* Resources */,
+				770A14011408368300AE2853 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -467,6 +468,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		770A14011408368300AE2853 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/myfile",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
+		};
 		7786E8F5140130D400BD2093 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
